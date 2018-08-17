@@ -1,0 +1,81 @@
+body{
+text-align: center;
+font-family: "OfficinaSansITCW01-Book 734509",Arial,sans-serif;
+}
+.hide {
+  opacity: 0;
+}
+
+.blueclick{
+    color: blue;
+     text-decoration: underline;
+}
+
+div.reviewhighlights
+{
+background: #f0e3ce;
+color: #888; 
+padding: 4px; 
+border: 1px #888 solid;
+}
+
+
+
+     h1 {
+        font: 16px sans-serif;
+        font-weight: bold;
+      }
+
+     div.header{
+background: #f0e3ce;
+height: 170px;
+     }
+      div.menus{
+	  width: 1200px;
+	  padding-top: 10px;
+	  padding-bottom: 10px;
+	  background: #8f5521;
+	  color: white;
+	  margin:0 auto;
+      }
+
+      table {
+        font: 14px sans-serif;
+        vertical-align: middle;
+        text-align: left;
+        border-collapse: collapse;
+	margin-top: 15px;
+      }
+      
+      td,th {
+        padding-top: 2px;
+        padding-bottom: 2px;
+      }
+      
+      tr.even {
+        background-color: whitesmoke; 
+      }
+      
+      
+      td.data {
+        padding-left: 10px;
+
+      }
+      td.name{
+	  width: 200px;
+      }
+      td.value {
+        text-align: right;
+	width: 200px;
+      }
+      
+ 
+      div.left{
+	  float:left;
+	  width:700px;
+      }
+      div.right{
+	  float:left;
+	  width:500px;
+	  padding-top: 10px;
+      }
