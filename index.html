@@ -69,6 +69,20 @@
 		<table id="resultstable"></table>
       </div>
       <div class="right" style="text-align: left;">
+	<div style="color: #888; padding: 4px; ">
+	  <h3>Methodology</h3>
+	  <p><b>UI Overview:</b> Can we learn from 5M Yelp to determine important qualities of convenience stores in different locales?  </p>
+	  <p>The table on the left lits the most predictive ngrams for positive reviews of convenience stores in 13 states (about 20k stores). The more positive the number then the more it predicts positive reviewsb. For example, if it's "clean", "nice" then the review is more likely to be positive and if there are issues with beer or the parking lot then the review is more likely to be negative.  The table is sorted so that the leftmost column is sorted top-to-bottom (most positive to most negative) and the rightmost column is set up to show comparisons with another geography.</p>
+	  <p>The light red table (below) will list example reviews for keywords in the left table which are underlined with blue text. That sample would expand to cover all with more compute resources.  </p>
+
+	  <p><b>Usage:</b> This kind of tool could help you <ul><li>... plan for launching new stores in unfamiliar locales. It can also be paired with more location data (e.g. from yelp or GIS sources) to add neighborhood information, highlight areas that are trending downwards in reviews.</li> <li>... identify unmet needs with regards to product selection or store features.</li> <li>... add fidelity to existing marketing segmentation models or perform qualitative-like information gathering on large scale.</li></ul>  </p>
+
+	  <p><b>Data:</b> Comes from the <a href="https://www.kaggle.com/yelp-dataset/yelp-dataset/home">Kaggle Yelp dataset</a> filtered by reviews in categories of "food" and "convenience store" </p>
+	  <p><b>ML/AI/NLP details:</b> Multinomial Naive Bayes text classification model with ngrams of size (1,3) after removing stopwords and non-alphanumeric words. </p>
+
+	  <p><b>Technology:</b> Python (scikit-learn, numpy). Javascript (D3, jquery).</p>
+	</div>
+
 	<div class="reviewhighlights">
 	  <h3>Example Reviews (click on linked ngrams on left)</h3>
 	  <p>If I had compute (e.g. a Lambda) then we could display example reviews for all ngrams or better yet use Elastic/SOLR to return searh results. It's too much data to put into one static html file.  </p>
@@ -76,15 +90,7 @@
 	  <div id = "doubleclick">
 	  </div>
 	</div>
-	<div style="color: #888; padding: 4px; border: 1px #888 solid;">
-	  <h3>Methodology</h3>
-	  <p><b>Overview:</b> Can we learn from 5M Yelp to determine important qualities of convenience stores in different locales?  </p>
-	  <p><b>Interpretation:</b> Higher numbers for ngrams means it is more predictive of a positive review</p>
-	    
-	  <p><b>Data:</b> Comes from the <a href="https://www.kaggle.com/yelp-dataset/yelp-dataset/home">Kaggle Yelp dataset</a> filtered by reviews in categories of "food" and "convenience store" </p>
-	  <p><b>ML:</b> Multinomial Naive Bayes text classification model with ngrams of size (1,3) after removing stopwords and non-alphanumeric words. </p>
-	  <p><b>Technology:</b> Python scikit-learn, numpy. Javascript (D3, jquery).</p>
-	</div>
+
       </div>
     </div>
     
