@@ -34,9 +34,9 @@ function draw_chart(data, selection, section2){
         .append("tr")
         .attr("class", "datarow");
 
-    
+    var max = 20;
     // Set the even rows
-    d3.selectAll(".datarow").filter(":nth-child(even)").attr("class", "datarow even")
+    d3.selectAll(".datarow").filter(":nth-child(even)").attr("class", "datarow even");
 
     //hide zero rows?
     
@@ -51,13 +51,21 @@ function draw_chart(data, selection, section2){
     //// column 1
     // Create the percent value column
     tr.append("td").attr("class", "data value")
-        .text(function(d) { return d[selection] })
+        .html(function(d) { return "<div style='background: rgb(198, 2, 48); float: left; width: 100px; width: "+(d[selection].toFixed(4)*-5)+"px'>&nbsp;</div><div style='float:left; width: 20px; padding-left: 10px;'>"+d[selection].toFixed(4)+"</div><div style='clear:both;'></div>"; });
     
+    // Creates the positive div bar
+    /*tr.select("div.positive")
+        .style("width", "0%")
+        .transition()
+        .duration(500)
+        .style("width", function(d) { return d[selection] > 0 ? x(d[selection]) : "0%"; });
+	*/
     ///////////////////////////////////////////
     //// column 2
     // Create the percent value column
     tr.append("td").attr("class", "data value")
-        .text(function(d) { return d[section2] })
+        .html(function(d) { return "<div style='background: rgb(249, 166, 26); float: left; width: 100px; width: "+(d[section2].toFixed(4)*-5)+"px'>&nbsp;</div><div style='float:left; width: 20px; padding-left: 10px;'>"+d[section2].toFixed(4)+"</div><div style='clear:both;'></div>"; });
+
     
 }
 
