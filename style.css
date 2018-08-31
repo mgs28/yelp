@@ -31,9 +31,9 @@ background: #f0e3ce;
 height: 170px;
      }
       div.menus{
+	  cursor: pointer;
 	  width: 1200px;
-	  padding-top: 10px;
-	  padding-bottom: 10px;
+	  height: 60px;
 	  background: #8f5521;
 	  color: white;
 	  margin:0 auto;
@@ -69,7 +69,26 @@ height: 170px;
 	width: 200px;
       }
       
- 
+      analysis{
+	  width: 1200px; 
+	  margin: 0 auto;
+      }
+
+      div.leftmenu{
+	  display: table;
+	  float: left;
+	  height: 60px;
+	  padding-left: 20px;
+	  padding-right: 20px;
+	  border: 1px solid white;
+      }
+      span.leftmenutext{
+	  vertical-align: middle;
+	  display: inline-block;
+	  text-align: center;
+	  display: table-cell;
+      }
+
       div.left{
 	  float:left;
 	  width:700px;
@@ -79,3 +98,15 @@ height: 170px;
 	  width:500px;
 	  padding-top: 10px;
       }
+
+        .dot {
+            stroke: none;
+        }
+        .tooltip {
+            position: absolute;
+            font-size: 12px;
+            width:  auto;
+            height: auto;
+            pointer-events: none;
+            background-color: white;
+        }

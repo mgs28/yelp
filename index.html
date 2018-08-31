@@ -7,9 +7,42 @@
 	<script type="text/javascript" src="https://raw.github.com/shawnbot/aight/master/aight.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/sizzle/1.4.4/sizzle.min.js"></script>
 	<![endif]-->
-        <script src="d3.v3.min.js" charset="utf-8"></script>
+    <script src="d3.v3.min.js" charset="utf-8"></script>
     <script src="calc.js"></script>
-    
+    <script>
+var selected = "menu1";
+function menu_mouseover(x) {
+    x.style.background = "#73411C";
+}
+
+function menu_mouseout(x) {
+    if(selected != x.id){
+	x.style.background = "#8f5521";
+    }
+}
+
+function menu_onclick(x) {
+    var link = document.getElementsByClassName('leftmenu');
+    var i = 0;
+    for(i = 0;i<link.length;i++){
+		  link[i].style.background = "#8f5521";
+    }
+
+    x.style.background = "#73411C";
+    selected = x.id;
+    var link = document.getElementsByClassName('analysis');
+    var i = 0;
+    for(i = 0;i<link.length;i++){
+		  link[i].style.display = 'none'; //or
+		  link[i].style.visibility = 'hidden';
+    }
+
+    var link = document.getElementById(x.id+'_plot');
+    link.style.display = null;
+    link.style.visibility = null;
+}
+
+    </script>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   
@@ -19,12 +52,51 @@
         <img src="https://cdn.shopify.com/s/files/1/0833/8827/t/12/assets/logo.png?10795618602926747781"/></a>
       
       <div class="menus">
-	<h1>NGrams That Lead To Positive Reviews At Food & Convenience Stores</h1>
-	
+	<div id="menu1" class="leftmenu" onmouseover="menu_mouseover(this)" onmouseout="menu_mouseout(this)" onclick="menu_onclick(this)"><span class="leftmenutext">Review themes by Geographies</span></div>
+	<div id="menu2" class="leftmenu" onmouseover="menu_mouseover(this)" onmouseout="menu_mouseout(this)" onclick="menu_onclick(this)"><span class="leftmenutext">Phrases That Lead To Positive Reviews</span></div>
       </div>
     </div>
     
-    <div style="width: 1200px; margin:0 auto;">
+    <div id="menu1_plot" class="analysis" style="width: 1200px; margin:0 auto;">
+      <div class="left">
+	<table>
+	  <tr>
+	  <td class="name" style="width: 150px">Pick a state to see themes:</td>
+	  <td class="value">
+	    <select id="inds3">
+	      <option value="AZ">AZ</option>
+	      <option value="IL">IL</option>
+	      <option value="NC">NC</option>
+	      <option value="NV">NV</option>
+	      <option value="OH">OH</option>
+	      <option value="ON">ON</option>
+	      <option value="PA" selected="selected">PA</option>
+	      <option value="SC">SC</option>
+	      <option value="WI">WI</option>
+	    </select>
+	  </td>
+	  </tr>
+	</table>
+	<div id="vis-container"></div>
+      </div>
+      <div class="right" style="text-align: left;">
+	<div style="color: #888; padding: 4px; ">
+	  <h3>Methodology</h3>
+	  <p><b>UI Overview:</b> What themes are being discussed in 5M Yelp reviews filtered for convenience stores?
+	  <p>The chart on the left displays the top themes present in convenience store reviews for each of the states. The algorithm picked out 15 themes for each state and collected a series of words to describe those themes. 
+	  <p>In Pennsylvania, you can see themes of 'gas stations' in Topic 6 (pink near top), Topic 4 (purple near the bottom) talks about 'good customer service' and topic 8 (light green on the left) talk about the pharmacy. Some topics are muddled (e.g. Topic 3, the bottom red topic, which shows some artifacts of the NLP model and is mostly miscellaneous topics) </p>
+
+	  <p><b>Usage:</b> This kind of tool could help you identify key themes for either marketing or product selections in the various locales.</p>
+
+	  <p><b>Data:</b> Comes from the <a href="https://www.kaggle.com/yelp-dataset/yelp-dataset/home">Kaggle Yelp dataset</a> filtered by reviews in categories of "food" and "convenience store" </p>
+	  <p><b>ML/AI/NLP details:</b> This is built using an decomposition model called Non-Negative Matrix Factorization (NMF) to identify the themes after some light NLP processing that includes lemmatization and identification of noun phrases. After the matrix decomposition, similarities between topics are computed from the topics as represented in the factorization matrix and then run through another dimensionality reduction technique (Multidimensional Scaling or MDS) to plot in a 2D table. </p> 
+
+	  <p><b>Technology:</b> Python (scikit-learn, numpy). Javascript (D3, jquery).</p>
+	</div>
+
+      </div>
+    </div>
+    <div id="menu2_plot" class="analysis" style="width: 1200px; margin:0 auto;">
       <div class="left">
 		<table>
 		  <tr>
@@ -72,7 +144,7 @@
 	<div style="color: #888; padding: 4px; ">
 	  <h3>Methodology</h3>
 	  <p><b>UI Overview:</b> Can we learn from 5M Yelp to determine important qualities of convenience stores in different locales?  </p>
-	  <p>The table on the left lits the most predictive ngrams for positive reviews of convenience stores in 13 states. The more positive the number then the more it predicts positive reviewsb. For example, if it's "clean", "nice" then the review is more likely to be positive and if there are issues with beer or the parking lot then the review is more likely to be negative.  The table is sorted so that the leftmost column is sorted top-to-bottom (most positive to most negative) and the rightmost column is set up to show comparisons with another geography.</p>
+	  <p>The table on the left lists the most predictive ngrams for positive reviews of convenience stores in 13 states. The more positive the number then the more it predicts positive reviews. For example, if it's "clean", "nice" then the review is more likely to be positive and if there are issues with beer or the parking lot then the review is more likely to be negative.  The table is sorted so that the leftmost column is sorted top-to-bottom (most positive to most negative) and the rightmost column is set up to show comparisons with another geography.</p>
 	  <p>The light red table (below) will list example reviews for keywords in the left table which are underlined with blue text. That sample would expand to cover all with more compute resources.  </p>
 
 	  <p><b>Usage:</b> This kind of tool could help you <ul><li>... plan for launching new stores in unfamiliar locales. It can also be paired with more location data (e.g. from yelp or GIS sources) to add neighborhood information, highlight areas that are trending downwards in reviews.</li> <li>... identify unmet needs with regards to product selection or store features.</li> <li>... add fidelity to existing marketing segmentation models or perform qualitative-like information gathering on large scale.</li></ul>  </p>
@@ -97,10 +169,11 @@
     <script type="text/javascript">
       var chartWidth = "100px",
       percent = d3.format(".2%");
-      orig_data = []
+      orig_data = [];
+      scatter_data = [];
       //draw_chart(orig_data, 11, 2);
 
-         d3.csv('words.csv', function loadCallback(error, data) {
+      d3.csv('words.csv', function loadCallback(error, data) {
                 data.forEach(function(d) { 
       d.AL = +d.AL;
       d.AZ = +d.AZ;
@@ -119,6 +192,16 @@
 	        orig_data = data;
                 draw_chart(data, 'PA', 'AZ');
             });
+
+
+            d3.csv('./topic.model', function loadCallback(error, data) {
+                data.forEach(function(d) { // convert strings to numbers
+                    d.x = +d.x;
+                    d.y = +d.y;
+                });
+                scatter_data = data;
+                makeVis(scatter_data, "PA");
+            });      
 
 d3.select('#inds1')
     .on("change", function () {
@@ -144,6 +227,17 @@ d3.select('#inds2')
 	draw_chart(orig_data,section, section2);
     });
 
+d3.select('#inds3')
+    .on("change", function () {
+	var sect = document.getElementById("inds3");
+	var section = sect.options[sect.selectedIndex].value;
+
+	//debugger
+	makeVis(scatter_data, section);
+    });
+
+var starttab = document.getElementById('menu1');
+menu_onclick(starttab);
 
     </script>
   </body>

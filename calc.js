@@ -72,3 +72,85 @@ function draw_chart(data, selection, section2){
 function isdoubleclickable(s){
     return s == "sheetz" || s == "beware" || s == "friendly";
 }
+
+
+var makeVis = function(data, selection) {
+    
+    // Common pattern for defining vis size and margins
+    var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+    width  = 500 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+    
+
+    var table = d3.select("#vis-container");
+    table.selectAll("svg").remove();
+
+    // Add the visualization svg canvas to the vis-container <div>
+    var canvas = d3.select("#vis-container").append("svg")
+        .attr("width",  width  + margin.left + margin.right)
+        .attr("height", height + margin.top  + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    // Define our scales
+    var colorScale = d3.scale.category10();
+    
+    var xScale = d3.scale.linear()
+        .domain([ d3.min(data, function(d) { return d.x; }) - 1,
+                  d3.max(data, function(d) { return d.x; }) + 1 ])
+        .range([0, width]);
+    
+    var yScale = d3.scale.linear()
+        .domain([ d3.min(data, function(d) { return d.y; }) - 1,
+                  d3.max(data, function(d) { return d.y; }) + 1 ])
+        .range([height, 0]); // flip order because y-axis origin is upper LEFT
+    
+    // Define our axes
+    var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient('bottom');
+    
+    var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient('left');
+   
+    
+    // Add the tooltip container to the vis container
+    // it's invisible and its position/contents are defined during mouseover
+    var tooltip = d3.select("#vis-container").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+    
+    // tooltip mouseover event handler
+    var tipMouseover = function(d) {
+        var html  = 
+            "<span>" + d.topic + "</span><br/>" +
+            "<b>Example words:</b>" + d.example ;
+	
+        tooltip.html(html)
+            .style("left", (d3.event.pageX + 15) + "px")
+            .style("top", (d3.event.pageY - 28) + "px")
+            .transition()
+            .duration(200) // ms
+            .style("opacity", .9) // started as 0!
+	
+    };
+    // tooltip mouseout event handler
+    var tipMouseout = function(d) {
+        tooltip.transition()
+            .duration(300) // ms
+            .style("opacity", 0); // don't care about position!
+    };
+    
+    // Add data points!
+    canvas.selectAll(".dot")
+        .data(data.filter(function(d){return d.state == selection;}))
+        .enter().append("circle")
+        .attr("class", "dot")
+        .attr("r", 5.5) // radius size, could map to another data dimension
+        .attr("cx", function(d) { return xScale( d.x ); })     // x position
+        .attr("cy", function(d) { return yScale( d.y ); })  // y position
+        .style("fill", function(d) { return colorScale(d.topic); })
+        .on("mouseover", tipMouseover)
+        .on("mouseout", tipMouseout);
+};
